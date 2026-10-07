@@ -39,6 +39,8 @@ const nextConfig: NextConfig = {
 
     return webpackConfig
   },
+  // Keep the dev badge from covering the prototype's quiet footer.
+  devIndicators: false,
   reactStrictMode: true,
   redirects,
   turbopack: {

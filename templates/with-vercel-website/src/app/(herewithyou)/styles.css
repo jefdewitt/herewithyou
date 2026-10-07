@@ -1,0 +1,443 @@
+:root {
+  color-scheme: light;
+
+  --hwy-bg: #f3ece0;
+  --hwy-paper: #fbf7ef;
+  --hwy-paper-edge: #e6dccb;
+  --hwy-ink: #2b2520;
+  --hwy-ink-soft: #5e5248;
+  --hwy-ink-faint: #6f6257;
+  --hwy-accent: #8c3f24;
+  --hwy-accent-hover: #73321b;
+  --hwy-on-accent: #fbf7ef;
+  --hwy-focus: #8c3f24;
+  --hwy-error: #9b2c1f;
+  --hwy-rule: #d9cdb9;
+
+  --hwy-serif: var(--font-newsreader), 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --hwy-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --hwy-measure: 34rem;
+  --hwy-radius: 4px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body.hwy {
+  margin: 0;
+  min-height: 100vh;
+  min-height: 100dvh;
+  background-color: var(--hwy-bg);
+  /* A faint paper grain, kept subtle so text contrast is unaffected. */
+  background-image:
+    radial-gradient(ellipse at 50% 0%, rgb(255 250 240 / 0.7), transparent 60%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.2 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  color: var(--hwy-ink);
+  font-family: var(--hwy-serif);
+  font-size: 1.125rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.hwy a {
+  color: inherit;
+}
+
+.hwy :focus-visible {
+  outline: 2px solid var(--hwy-focus);
+  outline-offset: 3px;
+  border-radius: var(--hwy-radius);
+}
+
+.hwy-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hwy-skip-link {
+  position: absolute;
+  inset-inline-start: 1rem;
+  inset-block-start: -4rem;
+  padding: 0.5rem 1rem;
+  background: var(--hwy-paper);
+  font-family: var(--hwy-sans);
+  font-size: 0.875rem;
+  z-index: 10;
+}
+
+.hwy-skip-link:focus {
+  inset-block-start: 1rem;
+}
+
+/* Layout */
+
+.hwy-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding-inline: 1.25rem;
+}
+
+.hwy-main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--hwy-measure);
+  margin-inline: auto;
+  padding-block: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.hwy-footer {
+  text-align: center;
+  padding-block: 1.25rem 1.75rem;
+}
+
+.hwy-footer__link {
+  font-family: var(--hwy-sans);
+  font-size: 0.8125rem;
+  color: var(--hwy-ink-faint);
+  text-decoration: underline;
+  text-decoration-color: var(--hwy-rule);
+  text-underline-offset: 3px;
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+}
+
+.hwy-footer__link:hover {
+  color: var(--hwy-ink);
+  text-decoration-color: currentColor;
+}
+
+/* Type */
+
+.hwy-wordmark {
+  display: inline-block;
+  margin: 0 0 2.5rem;
+  font-family: var(--hwy-serif);
+  font-style: italic;
+  font-size: 1.0625rem;
+  letter-spacing: 0.01em;
+  color: var(--hwy-ink-soft);
+  text-decoration: none;
+  padding-block: 0.5rem;
+}
+
+a.hwy-wordmark:hover {
+  color: var(--hwy-ink);
+}
+
+.hwy-display {
+  margin: 0 0 1.25rem;
+  font-size: clamp(2.25rem, 9vw, 3.25rem);
+  line-height: 1.08;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+.hwy-heading {
+  margin: 0 0 1rem;
+  font-size: clamp(1.75rem, 6.5vw, 2.25rem);
+  line-height: 1.15;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.hwy-heading:focus {
+  outline: none;
+}
+
+.hwy-lede {
+  margin: 0 0 2rem;
+  color: var(--hwy-ink-soft);
+  font-size: 1.1875rem;
+  text-wrap: pretty;
+}
+
+/* Buttons */
+
+.hwy-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.75rem;
+  margin-block-start: 2rem;
+}
+
+.hwy-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-family: var(--hwy-sans);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.hwy .hwy-button--primary {
+  background: var(--hwy-accent);
+  color: var(--hwy-on-accent);
+}
+
+.hwy .hwy-button--primary:hover {
+  background: var(--hwy-accent-hover);
+}
+
+.hwy .hwy-button--quiet {
+  background: transparent;
+  color: var(--hwy-ink-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--hwy-rule);
+  text-underline-offset: 4px;
+}
+
+.hwy .hwy-button--quiet:hover {
+  color: var(--hwy-ink);
+  text-decoration-color: currentColor;
+}
+
+/* Home */
+
+.hwy-home {
+  margin-block: auto;
+  padding-block: 1rem;
+}
+
+/* The letter */
+
+.hwy-receive {
+  display: flex;
+  flex-direction: column;
+}
+
+.hwy-letter {
+  position: relative;
+  background-color: var(--hwy-paper);
+  background-image: linear-gradient(180deg, rgb(255 255 255 / 0.5), transparent 30%);
+  border: 1px solid var(--hwy-paper-edge);
+  border-radius: 2px;
+  padding: 2.25rem 1.5rem 2.5rem;
+  box-shadow:
+    0 1px 1px rgb(60 40 20 / 0.04),
+    0 8px 24px -12px rgb(60 40 20 / 0.18),
+    0 24px 48px -32px rgb(60 40 20 / 0.2);
+  animation: hwy-letter-in 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.hwy-letter:focus {
+  outline: none;
+}
+
+.hwy-letter:focus-visible {
+  outline: 2px solid var(--hwy-focus);
+  outline-offset: 4px;
+}
+
+.hwy-letter__body {
+  font-size: 1.25rem;
+  line-height: 1.65;
+  color: var(--hwy-ink);
+  overflow-wrap: anywhere;
+}
+
+.hwy-letter__body p {
+  margin: 0 0 1.1em;
+  white-space: pre-line;
+  text-wrap: pretty;
+}
+
+.hwy-letter__body p:last-child {
+  margin-block-end: 0;
+}
+
+.hwy-letter--placeholder {
+  min-height: 16rem;
+  animation: none;
+  opacity: 0.6;
+}
+
+@keyframes hwy-letter-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Writing */
+
+.hwy-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.hwy-paper-field {
+  background: var(--hwy-paper);
+  border: 1px solid var(--hwy-paper-edge);
+  border-radius: 2px;
+  box-shadow: 0 8px 24px -16px rgb(60 40 20 / 0.2);
+  transition: border-color 160ms ease;
+}
+
+.hwy-paper-field:focus-within {
+  border-color: var(--hwy-ink-faint);
+}
+
+.hwy-textarea {
+  display: block;
+  width: 100%;
+  min-height: 18rem;
+  padding: 1.5rem 1.25rem;
+  border: 0;
+  background: transparent;
+  color: var(--hwy-ink);
+  font-family: var(--hwy-serif);
+  font-size: 1.25rem;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.hwy-textarea::placeholder {
+  color: var(--hwy-ink-faint);
+  opacity: 0.75;
+  font-style: italic;
+}
+
+.hwy .hwy-textarea:focus-visible {
+  outline: none;
+}
+
+.hwy-form__meta {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-block-start: 0.625rem;
+  font-family: var(--hwy-sans);
+  font-size: 0.8125rem;
+  color: var(--hwy-ink-faint);
+}
+
+.hwy-form__meta p {
+  margin: 0;
+}
+
+.hwy-form__count {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.hwy-form__count--near {
+  color: var(--hwy-accent);
+}
+
+.hwy-form__error {
+  margin: 0.75rem 0 0;
+  font-family: var(--hwy-sans);
+  font-size: 0.9375rem;
+  color: var(--hwy-error);
+}
+
+/* Confirmation & help */
+
+.hwy-confirmation {
+  margin-block: auto;
+  padding-block: 1rem;
+}
+
+.hwy-help p,
+.hwy-help li {
+  color: var(--hwy-ink-soft);
+}
+
+.hwy-help a {
+  color: var(--hwy-accent);
+  text-underline-offset: 3px;
+}
+
+.hwy-help__list {
+  padding-inline-start: 1.25rem;
+  margin: 1rem 0 1.5rem;
+}
+
+.hwy-help__list li {
+  margin-block-end: 0.75rem;
+}
+
+.hwy-help strong {
+  color: var(--hwy-ink);
+  font-weight: 600;
+}
+
+/* Wider screens: same quiet column, more air. */
+
+@media (min-width: 640px) {
+  .hwy-main {
+    padding-block: 3.5rem 3rem;
+  }
+
+  .hwy-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+
+  .hwy-actions > .hwy-button--quiet:first-child {
+    padding-inline: 0;
+  }
+
+  .hwy-letter {
+    padding: 3.25rem 3.25rem 3.5rem;
+  }
+
+  .hwy-letter__body {
+    font-size: 1.3125rem;
+  }
+
+  .hwy-textarea {
+    padding: 2rem 2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hwy-letter {
+    animation: none;
+  }
+
+  .hwy-button,
+  .hwy-paper-field {
+    transition: none;
+  }
+}
