@@ -100,9 +100,22 @@ Drink a glass of water. Text one person back. That's the whole assignment for to
 If you're grieving someone who's still alive, that's a real loss too. It's confusing. You don't have to have it figured out.`,
 ]
 
-export const seedNotes: Note[] = seedBodies.map((body, index) => ({
-  id: `seed-${index + 1}`,
-  body,
+// Assign seed bodies to topics: [body index, topic]
+const seedAssignments: Array<[number, string]> = [
+  [1, 'grief'], // My dad died
+  [3, 'sobriety'], // Day one again
+  [5, 'heartbreak'], // Checking your phone
+  [4, 'loneliness'], // Moved to city
+  [9, 'starting_over'], // Started over at 52
+  [10, 'grief'], // Dog died
+  [14, 'starting_over'], // Laid off
+  [18, 'loneliness'], // Left country
+]
+
+export const seedNotes: Note[] = seedAssignments.map(([bodyIndex, topic], seedIndex) => ({
+  id: `seed-${seedIndex + 1}`,
+  body: seedBodies[bodyIndex],
   createdAt: seedCreatedAt,
   source: 'seed',
+  topic,
 }))

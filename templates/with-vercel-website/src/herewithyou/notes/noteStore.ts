@@ -19,14 +19,15 @@ export function getAllNotes(): Note[] {
 }
 
 /** Picks a random note, avoiding the ones this browser has seen most recently. */
-export function getNextNote(): Note {
+export function getNextNote(topic: string | 'anything'): Note {
   const notes = getAllNotes()
+  const topicNotes = topic === 'anything' ? notes : notes.filter((note) => note.topic === topic)
   const recentlyShownIds = readJSON<string[]>({ fallback: [], key: recentlyShownKey })
   // Keep a window large enough to avoid repeats, but small enough that every note stays in rotation.
-  const avoidWindow = Math.min(Math.floor(notes.length / 2), 10)
+  const avoidWindow = Math.min(Math.floor(topicNotes.length / 2), 10)
   const avoidIds = new Set(recentlyShownIds.slice(-avoidWindow))
-  const candidates = notes.filter((note) => !avoidIds.has(note.id))
-  const pool = candidates.length > 0 ? candidates : notes
+  const candidates = topicNotes.filter((note) => !avoidIds.has(note.id))
+  const pool = candidates.length > 0 ? candidates : topicNotes
   const note = pool[Math.floor(Math.random() * pool.length)]!
 
   markRecentlyShown({ id: note.id })
@@ -64,7 +65,15 @@ export function validateNoteBody({ body }: { body: string }): NoteValidationResu
  * (automated screening plus human review) before any other person can receive them.
  * This prototype only stores notes in the writer's own browser and does basic client-side checks.
  */
-export function addNote({ body }: { body: string }): Note {
+export function addNote({
+  body,
+  topic,
+  signature,
+}: {
+  body: string
+  topic: string
+  signature?: string
+}): Note {
   const validation = validateNoteBody({ body })
 
   if (!validation.isValid) {
@@ -76,6 +85,8 @@ export function addNote({ body }: { body: string }): Note {
     body: body.trim(),
     createdAt: new Date().toISOString(),
     source: 'local',
+    topic,
+    signature: signature ? signature.trim() : undefined,
   }
 
   const localNotes = readJSON<Note[]>({ fallback: [], key: localNotesKey })

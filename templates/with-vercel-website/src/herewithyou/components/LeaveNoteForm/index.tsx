@@ -1,11 +1,14 @@
 'use client'
 
 import { addNote, NOTE_MAX_LENGTH, validateNoteBody } from '@/herewithyou/notes/noteStore'
+import { TopicSelector } from '@/herewithyou/components/TopicSelector'
 import Link from 'next/link'
 import React, { useEffect, useId, useRef, useState } from 'react'
 
 export function LeaveNoteForm() {
+  const [selectedTopic, setSelectedTopic] = useState<string | null>(null)
   const [body, setBody] = useState('')
+  const [signature, setSignature] = useState('')
   const [error, setError] = useState<null | string>(null)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const confirmationHeadingRef = useRef<HTMLHeadingElement>(null)
@@ -13,6 +16,7 @@ export function LeaveNoteForm() {
   const promptId = useId()
   const countId = useId()
   const errorId = useId()
+  const signatureId = useId()
 
   const characterCount = body.trim().length
   const isNearLimit = characterCount > NOTE_MAX_LENGTH * 0.9
@@ -33,7 +37,7 @@ export function LeaveNoteForm() {
       return
     }
 
-    addNote({ body })
+    addNote({ body, topic: selectedTopic || '', signature: signature || undefined })
     setIsSubmitted(true)
   }
 
@@ -56,11 +60,22 @@ export function LeaveNoteForm() {
     )
   }
 
+  if (selectedTopic === null) {
+    return (
+      <div>
+        <TopicSelector onSelect={setSelectedTopic} title="What have you been through?" />
+        <p className="hwy-lede">Choose something you could speak honestly about.</p>
+      </div>
+    )
+  }
+
   return (
     <section className="hwy-leave">
-      <h1 className="hwy-heading">Leave something for the next person who needs it.</h1>
-      <p className="hwy-lede" id={promptId}>
-        Write what you might have needed to hear during one of the harder periods of your own life.
+      <h1 className="hwy-heading">Leave something for someone going through it now.</h1>
+      <p className="hwy-lede">Tell them something you've lived.</p>
+      <p className="hwy-lede">
+        You don't need to give advice or say something profound. Just leave a few honest words for
+        someone going through something you've been through.
       </p>
       <form className="hwy-form" noValidate onSubmit={handleSubmit}>
         <label className="hwy-visually-hidden" htmlFor={textareaId}>
@@ -82,6 +97,20 @@ export function LeaveNoteForm() {
             placeholder="Hey stranger,"
             rows={10}
             value={body}
+          />
+        </div>
+        <div className="hwy-form__meta">
+          <label htmlFor={signatureId} className="hwy-form__label">
+            Sign your note (optional)
+          </label>
+          <input
+            type="text"
+            id={signatureId}
+            className="hwy-input"
+            value={signature}
+            onChange={(e) => setSignature(e.target.value.trim())}
+            placeholder="e.g., J. or Someone 8 years sober"
+            maxLength={100}
           />
         </div>
         <div className="hwy-form__meta">
