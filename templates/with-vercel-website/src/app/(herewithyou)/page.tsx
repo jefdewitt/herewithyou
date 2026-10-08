@@ -1,4 +1,5 @@
 import { Wordmark } from '@/herewithyou/components/Wordmark'
+import { HomeNoteDisplay } from '@/herewithyou/components/HomeNoteDisplay'
 import Link from 'next/link'
 import React from 'react'
 
@@ -11,6 +12,7 @@ export default function HomePage() {
         Sometimes a few words from someone who’s been there can make the world feel a little less
         lonely.
       </p>
+      <HomeNoteDisplay />
       <div className="hwy-actions">
         <Link className="hwy-button hwy-button--primary" href="/receive">
           I could use a kind word

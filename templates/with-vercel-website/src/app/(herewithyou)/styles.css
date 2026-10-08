@@ -232,6 +232,10 @@ a.hwy-wordmark:hover {
   padding-block: 1rem;
 }
 
+.hwy-home .hwy-letter {
+  margin-block-end: 2rem;
+}
+
 /* The letter */
 
 .hwy-receive {
